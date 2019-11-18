@@ -41,28 +41,31 @@ def run(context):
             else:
                 info += "  tan len = " + str(tangent.length) + "\n"
 
-        # nurb = spline.geometry;
-        # info += "Geomotery:\n   "
-        # numControlPoint = nurb.controlPointCount
-        # info += "  " + str(numControlPoint) + "\n"
+        nurb = spline.geometry;
+        info += "Geomotery:\n   "
+        numControlPoint = nurb.controlPointCount
+        info += "  " + str(numControlPoint) + "\n"
 
-        # controlPointList = nurb.controlPoints;
-        # for index in range(numControlPoint):
-        #     point3D = controlPointList[index]
-        #     (good, x,y,z) = point3D.getData()
-        #     info += "(" + str(x) + ", " + str(y) + ", " + str(z) + ")\n"
+        controlPointList = nurb.controlPoints;
+        for index in range(numControlPoint):
+            point3D = controlPointList[index]
+            (good, x,y,z) = point3D.getData()
+            info += "(" + str(x) + ", " + str(y) + ", " + str(z) + ")\n"
 
-        # info += "Curve Tyep = " + str(nurb.curveType) + "\n"       
-        # info += "Degree = " + str(nurb.degree) + "\n"    
-        # if nurb.isRational:
-        #     info += "Is rational\n"
-        # else:
-        #     info += "Not rational\n"
-        # info += "Knots:"       
-        # info += "  Count = " + str(nurb.knotCount) + "\n" 
+        info += "Curve Tyep = " + str(nurb.curveType) + "\n"       
+        info += "Degree = " + str(nurb.degree) + "\n"    
+        if nurb.isRational:
+            info += "Is rational\n"
+        else:
+            info += "Not rational\n"
+        info += "Knots:"       
+        info += "  Count = " + str(nurb.knotCount) + "\n" 
        
-        ui.messageBox(info, 'Title')
+        test(ui, info)
 
     except:
         if ui:
             ui.messageBox('Failed:\n{}'.format(traceback.format_exc()))
+
+def test(ui, info):
+    ui.messageBox(info, 'Title')
