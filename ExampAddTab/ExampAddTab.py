@@ -17,64 +17,29 @@ def run(context):
         if runningTabbedToolbar:
             # Get all workspaces:
             allWorkspaces = ui.workspaces
-            # Get the Render workspace:
-            renderWorkspace = allWorkspaces.itemById('FusionRenderEnvironment')
+
             # Get the Design workspace:
             designWorkspace = allWorkspaces.itemById('FusionSolidEnvironment')
-            if (renderWorkspace and designWorkspace):
-                # Get all the tabs for the Render and Design workspaces:
-                allRenderTabs = renderWorkspace.toolbarTabs
+
+            if (designWorkspace):
+                # Get all the tabs for the Design workspaces:
                 allDesignTabs = designWorkspace.toolbarTabs
-                if ((allRenderTabs.count > 0) and (allDesignTabs.count > 0)):
-                    # Add a new tab to the Render and Design workspaces:
-                    newRenderTab = allRenderTabs.add('NewRenderTabHere', 'New Render Tab')
-                    newDesignTab = allDesignTabs.add('NewDesignTabHere', 'New Design Tab')
-                    if (newRenderTab and newDesignTab):
-                        # Get all of the toolbar panels for the NewRender and NewDesign tab:
-                        allNewRenderTabPanels = newRenderTab.toolbarPanels
+                if (allDesignTabs.count > 0):
+                    # Add a new tab to the Design workspaces:
+                    newDesignTab = allDesignTabs.add('ParkerTongTabId', 'Parker Tong')
+
+                    if (newDesignTab):
+                        # Get all of the toolbar panels for the NewDesign tab:
                         allNewDesignTabPanels = newDesignTab.toolbarPanels
 
                         # Has the panel been added already?
                         # You'll get an error if you try to add this more than once to the tab.
-                        brandNewRenderPanel = None
-                        brandNewRenderPanel = allNewRenderTabPanels.itemById('bestRenderPanelEverId')
-                        if brandNewRenderPanel is None:
-                            # We have not added the panel already.  Go ahead and add it.
-                            brandNewRenderPanel = allNewRenderTabPanels.add('bestRenderPanelEverId', 'Best Render Panel')
-
-                        if brandNewRenderPanel:
-                            # We want this panel to be visible:
-                            brandNewRenderPanel.isVisible = True
-                            # Access the controls that belong to the panel:
-                            newPanelControls = brandNewRenderPanel.controls
-
-                            # Do we already have this command in the controls?  
-                            # You'll get an error if you try to add it more than once to the panel:
-                            extrudeCmdControl =  None
-                            extrudeCmdControl = newPanelControls.itemById('Extrude')
-                            if extrudeCmdControl is None:
-                                if anotherExtrudeCmd:
-                                    # Go ahead and add the command to the panel:
-                                    extrudeCmdControl = newPanelControls.addCommand(anotherExtrudeCmd)
-                                    if extrudeCmdControl:
-                                        extrudeCmdControl.isVisible = True
-                                        extrudeCmdControl.isPromoted = True
-                                        extrudeCmdControl.isPromotedByDefault = True
-
-                            else:
-                                if brandNewRenderPanel.isVisible:
-                                    ui.messageBox('Do you see Best Panel now?')     
-                                else:
-                                    totalControlsInPanel = newPanelControls.count
-                                    if (totalControlsInPanel == 1):
-                                        if extrudeCmdControl.isVisible:
-                                            ui.messageBox('Not visible control')                    
-
                         brandNewDesignPanel = None
-                        brandNewDesignPanel = allNewDesignTabPanels.itemById('bestDesignPanelEverId')
+                        brandNewDesignPanel = allNewDesignTabPanels.itemById('UnProjectPanel')
+
                         if brandNewDesignPanel is None:
                             # We have not added the panel already.  Go ahead and add it.
-                            brandNewDesignPanel = allNewDesignTabPanels.add('bestDesignPanelEverId', 'Best Design Panel')
+                            brandNewDesignPanel = allNewDesignTabPanels.add('UnProjectPanle', 'Un-Project')
 
                         if brandNewDesignPanel:
                             # We want this panel to be visible:
