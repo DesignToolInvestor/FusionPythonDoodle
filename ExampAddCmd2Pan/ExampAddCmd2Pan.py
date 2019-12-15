@@ -21,19 +21,21 @@ def run(context):
         cmdDefs = ui.commandDefinitions
         
         # Create a button command definition.
-        buttonSample = cmdDefs.addButtonDefinition(
-            'MyButtonDefIdPython', 'Python Sample Button', 'Sample button tooltip')
+        unProject2dButton = cmdDefs.itemById('UnProject2dId')
+        if unProject2dButton is None:
+            unProject2dButton = cmdDefs.addButtonDefinition(
+                'UnProject2dId', 'Un-Project 2d', 'Unproject from one plane to another')
         
         # Connect to the command created event.
-        sampleCommandCreated = SampleCommandCreatedEventHandler()
-        buttonSample.commandCreated.add(sampleCommandCreated)
-        handlers.append(sampleCommandCreated)
+        unProject2dCreateHandler = unProject2dCreate()
+        unProject2dButton.commandCreated.add(unProject2dCreateHandler)
+        handlers.append(unProject2dCreateHandler)
         
-        # Get the ADD-INS panel in the model workspace. 
-        addInsPanel = ui.allToolbarPanels.itemById('SolidScriptsAddinsPanel')
+        # Get the ADD-INS panel in the model workspace.
+        addInsPanel = ui.allToolbarPanels.itemById('UnProjectPanelId')
         
         # Add the button to the bottom of the panel.
-        buttonControl = addInsPanel.controls.addCommand(buttonSample)
+        buttonControl = addInsPanel.controls.addCommand(unProject2dButton)
 
     except:
         if ui:
@@ -41,23 +43,25 @@ def run(context):
 
 
 # Event handler for the commandCreated event.
-class SampleCommandCreatedEventHandler(adsk.core.CommandCreatedEventHandler):
+class unProject2dCreate(adsk.core.CommandCreatedEventHandler):
     def __init__(self):
         super().__init__()
+
     def notify(self, args):
         eventArgs = adsk.core.CommandCreatedEventArgs.cast(args)
         cmd = eventArgs.command
 
         # Connect to the execute event.
-        onExecute = SampleCommandExecuteHandler()
-        cmd.execute.add(onExecute)
-        handlers.append(onExecute)
+        onExecuteHandler = unProject2dExecute()
+        cmd.execute.add(onExecuteHandler)
+        handlers.append(onExecuteHandler)
 
 
 # Event handler for the execute event.
-class SampleCommandExecuteHandler(adsk.core.CommandEventHandler):
+class unProject2dExecute(adsk.core.CommandEventHandler):
     def __init__(self):
         super().__init__()
+
     def notify(self, args):
         eventArgs = adsk.core.CommandEventArgs.cast(args)
 
@@ -73,12 +77,12 @@ def stop(context):
         ui  = app.userInterface
         
         # Clean up the UI.
-        cmdDef = ui.commandDefinitions.itemById('MyButtonDefIdPython')
+        cmdDef = ui.commandDefinitions.itemById('unProject2dId')
         if cmdDef:
             cmdDef.deleteMe()
             
-        addinsPanel = ui.allToolbarPanels.itemById('SolidScriptsAddinsPanel')
-        cntrl = addinsPanel.controls.itemById('MyButtonDefIdPython')
+        addinsPanel = ui.allToolbarPanels.itemById('UnProjectPanelId')
+        cntrl = addinsPanel.controls.itemById('unProject2dId')
         if cntrl:
             cntrl.deleteMe()
         
