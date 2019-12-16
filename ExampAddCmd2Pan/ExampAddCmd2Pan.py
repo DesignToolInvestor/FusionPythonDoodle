@@ -6,7 +6,7 @@
 ##  up a message box rather than create a sketch with a triangle.
 
 import adsk.core, adsk.fusion, adsk.cam, traceback
-from . import TirAngle
+from . import TriAngle
 
 class ReEnteryError(Exception):
     pass
@@ -77,17 +77,6 @@ class unProject2dExecute(adsk.core.CommandEventHandler):
         ui  = app.userInterface
 
         TirAngle()
-
-        # des = adsk.fusion.Design.cast(app.activeProduct)        
-        # if des:
-        #     root = des.rootComponent
-        #     sk = root.sketches.add(root.xYConstructionPlane)
-        #     lines = sk.sketchCurves.sketchLines
-        #     l1 = lines.addByTwoPoints(adsk.core.Point3D.create(0,0,0), 
-        #                               adsk.core.Point3D.create(5,0,0))
-        #     l2 = lines.addByTwoPoints(l1.endSketchPoint,
-        #                               adsk.core.Point3D.create(2.5,4,0))
-        #     l3 = lines.addByTwoPoints(l2.endSketchPoint, l1.startSketchPoint)
 
 
 def stop(context):
