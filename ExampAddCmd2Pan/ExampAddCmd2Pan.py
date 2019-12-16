@@ -6,6 +6,7 @@
 ##  up a message box rather than create a sketch with a triangle.
 
 import adsk.core, adsk.fusion, adsk.cam, traceback
+# import TirAngle
 
 # Global list to keep all event handlers in scope.
 # This is only needed with Python.
@@ -22,9 +23,11 @@ def run(context):
         
         # Create a button command definition.
         unProject2dButton = cmdDefs.itemById('UnProject2dId')
-        if unProject2dButton is None:
-            unProject2dButton = cmdDefs.addButtonDefinition(
-                'UnProject2dId', 'Un-Project 2d', 'Unproject from one plane to another')
+        if unProject2dButton:
+            unProject2dButton.deleteMe();
+
+        unProject2dButton = cmdDefs.addButtonDefinition(
+            'UnProject2dId', 'Un-Project 2d', 'Unproject from one plane to another')
         
         # Connect to the command created event.
         unProject2dCreateHandler = unProject2dCreate()
@@ -68,7 +71,19 @@ class unProject2dExecute(adsk.core.CommandEventHandler):
         # Code to react to the event.
         app = adsk.core.Application.get()
         ui  = app.userInterface
-        ui.messageBox('In command execute event handler.')
+
+        # TirAngle()
+
+        des = adsk.fusion.Design.cast(app.activeProduct)        
+        if des:
+            root = des.rootComponent
+            sk = root.sketches.add(root.xYConstructionPlane)
+            lines = sk.sketchCurves.sketchLines
+            l1 = lines.addByTwoPoints(adsk.core.Point3D.create(0,0,0), 
+                                      adsk.core.Point3D.create(5,0,0))
+            l2 = lines.addByTwoPoints(l1.endSketchPoint,
+                                      adsk.core.Point3D.create(2.5,4,0))
+            l3 = lines.addByTwoPoints(l2.endSketchPoint, l1.startSketchPoint)
 
 
 def stop(context):
@@ -85,6 +100,8 @@ def stop(context):
         cntrl = addinsPanel.controls.itemById('unProject2dId')
         if cntrl:
             cntrl.deleteMe()
+        
+        ui.messageBox('Cleaned up UnProject Button')
         
     except:
         if ui:
